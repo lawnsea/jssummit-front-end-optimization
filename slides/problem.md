@@ -339,7 +339,7 @@ JS | 650ms | 631ms | -19ms | -3%
 
 It turns out that Chrome opens extra TCP connections, so the model predicts an
 extra round trip for the second request. When this is taken into account, the
-model predicts a more model 7% decrease for `T_fetch_JS`.
+model predicts a more modest 7% decrease for `T_fetch_JS`.
 
 
 Because of the low risk associated with making the change, we went ahead and did
