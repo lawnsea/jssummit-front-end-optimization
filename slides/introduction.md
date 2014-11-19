@@ -1,6 +1,4 @@
-# Chasing Waterfalls
-
-## Real-world performance optimization of 3rd-party JavaScript
+# Front-End Optimization
 
 ### Lon Ingram
 

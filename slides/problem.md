@@ -20,6 +20,10 @@ application.
 When the application JavaScript executes, it renders the ratings and reviews
 returned by the API.
 
+For details on the scout file, see [Deploying JavaScript
+Applications](https://alexsexton.com/blog/2013/03/deploying-javascript-applications/)
+by Alex Sexton
+
 Notes:
 TODO: break into three slides with diagrams
 
@@ -35,7 +39,6 @@ development was necessarily focused on features. Over time, the median render
 time slowly crept up.
 
 Notes:
-https://alexsexton.com/blog/2013/03/deploying-javascript-applications/
 Firebird was fortunate to have been designed by some very sharp engineers, led
 by Alex Sexton, who is speaking at this very conference (probably about the
 history of computer case colors or something)
@@ -62,6 +65,11 @@ the following:
 
 
 ## Deriving a model for network requests
+
+
+<div class="center-image">
+![High Performance Browser Networking](./assets/hpbn-ilya-grigorik.jpg)
+</div>
 
 
 ### You wouldn't download a car
@@ -341,6 +349,8 @@ It turns out that Chrome opens extra TCP connections, so the model predicts an
 extra round trip for the second request. When this is taken into account, the
 model predicts a more modest 7% decrease for `T_fetch_JS`.
 
+
+## Closing the loop
 
 Because of the low risk associated with making the change, we went ahead and did
 so without further experimentation (testing in other browsers, e.g.).

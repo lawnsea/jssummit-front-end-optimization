@@ -1,6 +1,11 @@
 # Theory and method of performance optimization
 
 
+<div class="center-image">
+![Systems Performance: Enterprise and the Cloud](./assets/systems-performance-brendan-gregg.jpeg)
+</div>
+
+
 ## What is performance optimization?
 
 
@@ -97,11 +102,16 @@ A good experiment is *focused* and *repeatable*.
 
 ## Analysis
 
+<div class="center-image">
+![A typical timing distribution](./assets/distribution.png)
+</div>
+
 Performance data rarely conforms to a standard distribution, so mean and
 standard deviation are typically not very helpful.
 
 Instead, examine the minimum and maximum, as well as the median and two or three
 other percentiles, such as the 75th, 95th, and 99th.
+
 
 Plotting experimental results can be very helpful.
 
