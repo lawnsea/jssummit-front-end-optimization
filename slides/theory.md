@@ -1,9 +1,15 @@
 # Theory and method of performance optimization
 
+Notes:
+- Now lay out the method that I take when approaching a performance project
+
 
 <div class="center-image">
 ![Systems Performance: Enterprise and the Cloud](./assets/systems-performance-brendan-gregg.jpeg)
 </div>
+
+Notes:
+- Brendan Gregg, currently of Netflix, formerly of Joyent and Sun
 
 
 ## What is performance optimization?
@@ -26,6 +32,17 @@ The major activities of optimization include
 - identifying optimization opportunities
 - experimentation
 - analysis
+
+Notes:
+- I will go into detail for each of these
+- At a high level, you
+  - decide what you want to improve
+  - gather data
+  - try something
+  - see if it worked
+  - repeat
+- I will be talking in terms of improving the speed of a program, but these
+  techniques also apply to other perf concerns, such as reducing memory usage
 
 
 ## Setting goals
@@ -76,7 +93,7 @@ and display measurements captured with the User Timing API.
 This is the hard part: getting performance data from the browser to a server for
 later analysis. There are three broad approaches to the problem:
 
-- Fully-hosted (Google Analytics, splunk, e.g.)
+- Fully-hosted (Google Analytics, Splunk, e.g.)
 - Self-hosted off the shelf software (statsd, e.g.)
 - Roll your own
 
@@ -85,6 +102,20 @@ and scalable is *hard*.
 
 
 ## Identifying Optimization Opportunities
+
+
+### Amdahl's Law cannot be bargained with
+
+The maximum performance improvement to a computation that can be achieved by
+optimizing a portion of that computation is bounded by the current performance
+of that portion.
+
+For example, if a particular function takes 100ms to execute and 10ms of that
+time is spent in a helper function, even making that helper *infinitely fast*
+will garner at most a 10% improvement.
+
+Notes:
+- often discussed in the context of parallelization
 
 
 ## Experimentation
@@ -99,6 +130,13 @@ and scalable is *hard*.
 
 A good experiment is *focused* and *repeatable*.
 
+Notes:
+- Q: will spriting my images reduce load time?
+- H: spriting my images will reduce median load time by 25%
+- T: load the page 30x each in Firefox, Chrome, and IE, with images sprited,
+  then repeat with images unsprited
+- A: Find the median of each dataset and compare
+
 
 ## Analysis
 
@@ -112,20 +150,25 @@ standard deviation are typically not very helpful.
 Instead, examine the minimum and maximum, as well as the median and two or three
 other percentiles, such as the 75th, 95th, and 99th.
 
+Notes:
+- distributions
+- probability density
+- modal vs multimodal
+- min, max, median and percentiles sted of mean
+
 
 Plotting experimental results can be very helpful.
 
 Useful visualization tools include spreadsheet programs like Excel or
 LibreOffice Calc, gnuplot, and R.
 
+Another excellent visualization is the waterfall diagram found in most browser
+developer tools.
+
+I've built a little tool called [Sapa](https://github.com/lawnsea/sapa) that
+tranforms User Timeline data into the Chrome Timeline format.
+
 Notes:
-TODO: break this into two or three slides, including a standard distribution, a
-non-standard distribution, and something that shows percentiles
-- distributions
-- probability density
-- modal vs multimodal
-- min, max, median and percentiles sted of mean
-TODO: talk about waterfalls
 - waterfall
 - chrome timeline
 - sapa

@@ -9,15 +9,16 @@ It is hosted on S3 and edge-cached by Akamai.
 
 
 The host page includes a script tag for what we call the "scout file". The scout
-is a small file (~7kB) loaded from a canonical URL and cached for a short time
-(~10 minutes).
+is a small file (~14kB gzipped) loaded from a canonical URL and cached for a
+short time (~10 minutes).
 
-When it executes, the scout fetches the application JavaScript (~228kB) and
-styles (~45kB) from a versioned URL that is cached for a very long time (~3
-years). It also makes an API request for the data that will be displayed by the
-application.
+When it executes, the scout fetches the application JavaScript (~228kB gzipped)
+and styles (~45kB gzipped) from a versioned URL that is cached for a very long
+time (~3 years). It also makes an API request for the data that will be
+displayed by the application.
 
-When the application JavaScript executes, it renders the ratings and reviews
+
+Once the application JavaScript executes, it renders the ratings and reviews
 returned by the API.
 
 For details on the scout file, see [Deploying JavaScript
@@ -278,13 +279,15 @@ have a 30kB congestion window, while the JavaScript will be fetched over a
 connection with a 15kB congestion window. Our model predicts the following:
 
 ```
-T_fetch_CSS = 0.042 * ceil(log_2(45,000 / 29,200 + 1)) + 45,000 / 625,000
+T_fetch_CSS = 0.042 * ceil(log_2(45,000 / 29,200 + 1))
+              + 45,000 / 625,000
             = 0.042 * 2 + 45,000 / 625,000
             = 156ms
 ```
 
 ```
-T_fetch_JS = 0.042 * (1 + ceil(log_2(228,000 / 14,600 + 1))) + 228,000 / 625,000
+T_fetch_JS = 0.042 * (1 + ceil(log_2(228,000 / 14,600 + 1)))
+             + 228,000 / 625,000
            = 0.042 * 6 + 228,000 / 625,000
            = 617ms
 ```
@@ -295,13 +298,15 @@ T_fetch_JS = 0.042 * (1 + ceil(log_2(228,000 / 14,600 + 1))) + 228,000 / 625,000
 With the requests swapped, our model predicts the following:
 
 ```
-T_fetch_CSS = 0.042 * (1 + ceil(log_2(45,000 / 14,600 + 1))) + 45,000 / 625,000
+T_fetch_CSS = 0.042 * (1 + ceil(log_2(45,000 / 14,600 + 1)))
+              + 45,000 / 625,000
             = 0.042 * 2 + 45,000 / 625,000
             = 198ms
 ```
 
 ```
-T_fetch_JS = 0.042 * ceil(log_2(228,000 / 29,200 + 1)) + 228,000 / 625,000
+T_fetch_JS = 0.042 * ceil(log_2(228,000 / 29,200 + 1))
+             + 228,000 / 625,000
            = 0.042 * 4 + 228,000 / 625,000
            = 533ms
 ```
@@ -315,7 +320,7 @@ So, we expect `T_fetch_CSS` to go up by 26% and `T_fetch_JS` to go down by 14%.
 ### Hypothesis
 
 Injecting the application JavaScript tag before the CSS tag will decrease
-`T_fetch_app`.
+`T_fetch_JS`.
 
 
 ### Experiment design
@@ -349,12 +354,36 @@ It turns out that Chrome opens extra TCP connections, so the model predicts an
 extra round trip for the second request. When this is taken into account, the
 model predicts a more modest 7% decrease for `T_fetch_JS`.
 
-
-## Closing the loop
+This is roughly in line with the prediction of our model.
 
 Because of the low risk associated with making the change, we went ahead and did
 so without further experimentation (testing in other browsers, e.g.).
 
+
+## Closing the loop
+
+While successful, this change did not get us to our 5% goal.
+
+We are in the process of evaluating the next opportunity on our list: breaking
+the JavaScript payload into two pieces that download concurrently on fast
+connections.
+
+
+
+Performance is important. Getting it right is tricky and takes a rigorous and
+careful approach.
+
+Notes:
+talk about synchronous requires
+
+
+Choose attainable goals.
+
+
+Develop an analytic understanding of your application.
+
+
+Measure. Measure. Measure.
 
 
 # Questions?
