@@ -386,4 +386,9 @@ Develop an analytic understanding of your application.
 Measure. Measure. Measure.
 
 
-# Questions?
+# Thanks!
+
+<div style="text-align: center;">
+[@lawnsea](https://twitter.com/lawnsea) | [github](https://github.com/lawnsea)
+</div>
+
