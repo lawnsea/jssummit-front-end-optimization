@@ -2,6 +2,10 @@
 
 ### Lon Ingram
 
+<div style="text-align: center;">
+[http://lawnsea.com/jssummit-front-end-optimization](http://lawnsea.com/jssummit-front-end-optimization)
+</div>
+
 
 
 <div class="center-image">
